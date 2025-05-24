@@ -7,5 +7,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class DiscussionTest {
 
     // TODO: Implement the tests
-
+    @TestSubject
+    private Discussion discussion;
+    @Mock
+    private Course courseMock;
+    @Mock
+    private Comment commentMock;
 }
