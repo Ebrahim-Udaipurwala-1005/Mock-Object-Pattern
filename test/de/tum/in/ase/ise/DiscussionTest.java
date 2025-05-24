@@ -1,7 +1,12 @@
 package de.tum.in.ase.ise;
 
 import org.easymock.*;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(EasyMockExtension.class)
 class DiscussionTest {
@@ -13,4 +18,15 @@ class DiscussionTest {
     private Course courseMock;
     @Mock
     private Comment commentMock;
+
+    @Test
+    void testComment() {
+        expect(commentMock.save()).andReturn(true);
+        replay(commentMock);
+
+        int expected = discussion.getNumberOfComments() + 1;
+        boolean added = discussion.addComment(commentMock);
+        assertEquals(discussion.addComment(commentMock), added);
+        assertEquals(expected, discussion.getNumberOfComments());
+    }
 }
