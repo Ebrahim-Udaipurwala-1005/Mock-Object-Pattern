@@ -40,4 +40,18 @@ class DiscussionTest {
 
         EasyMock.verify(commentMock);
     }
+
+    @Test
+    void testCommentIfSavingFails() {
+        expect(commentMock.save()).andReturn(false);
+        replay(commentMock);
+
+        int before = discussion.getNumberOfComments();
+        boolean added = discussion.addComment(commentMock);
+
+        assertFalse(added);
+        assertEquals(before, discussion.getNumberOfComments());
+
+        EasyMock.verify(commentMock);
+    }
 }
