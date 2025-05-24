@@ -1,6 +1,7 @@
 package de.tum.in.ase.ise;
 
 import org.easymock.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -19,14 +20,24 @@ class DiscussionTest {
     @Mock
     private Comment commentMock;
 
+    @BeforeEach
+    void setUp() {
+        discussion = new Discussion();
+        commentMock = EasyMock.createMock(Comment.class);
+        courseMock = EasyMock.createMock(Course.class);
+    }
+
     @Test
     void testComment() {
         expect(commentMock.save()).andReturn(true);
         replay(commentMock);
 
-        int expected = discussion.getNumberOfComments() + 1;
+        int before = discussion.getNumberOfComments();
         boolean added = discussion.addComment(commentMock);
-        assertEquals(discussion.addComment(commentMock), added);
-        assertEquals(expected, discussion.getNumberOfComments());
+
+        assertTrue(added);
+        assertEquals(before + 1, discussion.getNumberOfComments());
+
+        EasyMock.verify(commentMock);
     }
 }
