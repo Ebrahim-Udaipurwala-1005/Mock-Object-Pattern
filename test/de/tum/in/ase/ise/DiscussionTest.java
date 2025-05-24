@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.time.LocalDate;
+
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,5 +55,23 @@ class DiscussionTest {
         assertEquals(before, discussion.getNumberOfComments());
 
         EasyMock.verify(commentMock);
+    }
+
+    @Test
+    void testStartCourseDiscussion() {
+            String topic = "Agile Development";
+            LocalDate birthDate = LocalDate.of(2006, 5, 10);
+            Person student = new Student("Ebrahim", "Udaipurwala", birthDate, "BIE", "CS");
+
+            EasyMock.expect(courseMock.isDiscussionAllowed(student)).andReturn(true);
+            EasyMock.replay(courseMock);
+
+            boolean started = discussion.startCourseDiscussion(courseMock, student, topic);
+
+            assertTrue(started);
+            assertEquals(courseMock, discussion.getCourse());
+            assertEquals(topic, discussion.getTopic());
+
+            EasyMock.verify(courseMock);
     }
 }
